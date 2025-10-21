@@ -1,0 +1,8 @@
+{
+    "title" : "SWE 1",
+    "description" : "Test Desc",
+    "minSalary" : "30000",
+    "maxSalary" : "40000",
+    "location" : "Pune",
+    "companyId" : 1
+}
