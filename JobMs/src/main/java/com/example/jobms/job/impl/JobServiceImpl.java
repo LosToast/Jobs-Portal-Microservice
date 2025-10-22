@@ -20,9 +20,11 @@ public class JobServiceImpl implements JobService {
 
     //private List<Job> jobs = new ArrayList<Job>();
     JobRepository jobRepository;
+    private RestTemplate restTemplate;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    public JobServiceImpl(JobRepository jobRepository , RestTemplate restTemplate) {
         this.jobRepository = jobRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -42,8 +44,7 @@ public class JobServiceImpl implements JobService {
         responseDTO.setMaxSalary(job.getMaxSalary());
         responseDTO.setMinSalary(job.getMinSalary());
 
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8082/companies/" + job.getCompanyId();
+        String url = "http://COMPANYMS:8082/companies/" + job.getCompanyId();
         CompanyResponseDTO companyResponseDTO = restTemplate.getForObject(url , CompanyResponseDTO.class);
 
         responseDTO.setCompanyResponseDTO(companyResponseDTO);
