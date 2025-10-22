@@ -1,9 +1,11 @@
 package com.example.jobms.job;
 
+import com.example.jobms.job.response.ResponseDTO;
+
 import java.util.List;
 
 public interface JobService {
-    List<Job> findAll();
+    List<ResponseDTO> findAll();
     Job getJobById(Long id);
     void createJob(Job job);
     boolean deleteJobById(Long id);

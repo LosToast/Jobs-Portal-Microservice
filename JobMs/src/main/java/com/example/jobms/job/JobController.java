@@ -1,5 +1,6 @@
 package com.example.jobms.job;
 
+import com.example.jobms.job.response.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Job>> findAll(){
+    public ResponseEntity<List<ResponseDTO>> findAll(){
         //new ResponseEntity<>(jobService.findAll(), HttpStatus.OK);
         return ResponseEntity.ok(jobService.findAll()); // another way of doing the same
     }
