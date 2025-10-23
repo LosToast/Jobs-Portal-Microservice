@@ -1,15 +1,22 @@
 package com.example.jobms.job.response;
 
-import java.util.List;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-public class CompanyResponseDTO {
+public class ReviewDTO {
+
     private Long id;
     private String name;
     private String description;
+    private double rating;
 
-    private List<ReviewDTO> reviews;
+    public Long getId() {
+        return id;
+    }
 
-    public CompanyResponseDTO() {
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -28,19 +35,11 @@ public class CompanyResponseDTO {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
+    public double getRating() {
+        return rating;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<ReviewDTO> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<ReviewDTO> reviews) {
-        this.reviews = reviews;
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }

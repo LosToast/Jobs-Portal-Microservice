@@ -6,6 +6,10 @@ import com.example.jobms.job.JobRepository;
 import com.example.jobms.job.JobService;
 import com.example.jobms.job.response.CompanyResponseDTO;
 import com.example.jobms.job.response.ResponseDTO;
+import com.example.jobms.job.response.ReviewDTO;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
@@ -37,7 +41,6 @@ public class JobServiceImpl implements JobService {
 
     private ResponseDTO convertToDto(Job job){
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCompanyId(job.getCompanyId());
         responseDTO.setDescription(job.getDescription());
         responseDTO.setLocation(job.getLocation());
         responseDTO.setTitle(job.getTitle());
@@ -47,13 +50,23 @@ public class JobServiceImpl implements JobService {
         String url = "http://COMPANYMS:8082/companies/" + job.getCompanyId();
         CompanyResponseDTO companyResponseDTO = restTemplate.getForObject(url , CompanyResponseDTO.class);
 
+        ResponseEntity<List<ReviewDTO>> reviewResponse = restTemplate.exchange(
+                "http://REVIEWMS:8083/reviews?companyId=" + job.getCompanyId(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ReviewDTO>>() {
+                });
+
+        companyResponseDTO.setReviews(reviewResponse.getBody());
+
         responseDTO.setCompanyResponseDTO(companyResponseDTO);
 
         return  responseDTO;
     }
 
-    public Job getJobById(Long id){
-        return jobRepository.findById(id).orElse(null);
+    public ResponseDTO getJobById(Long id){
+        Job job = jobRepository.findById(id).orElse(null);
+        return convertToDto(job);
     }
 
     @Override

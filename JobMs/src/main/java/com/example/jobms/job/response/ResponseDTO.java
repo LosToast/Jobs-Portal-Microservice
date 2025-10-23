@@ -6,8 +6,7 @@ public class ResponseDTO {
     private String minSalary;
     private String maxSalary;
     private String location;
-    private Long companyId;
-    private CompanyResponseDTO companyResponseDTO;
+    private CompanyResponseDTO company;
 
     public ResponseDTO() {
     }
@@ -52,19 +51,11 @@ public class ResponseDTO {
         this.location = location;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
     public CompanyResponseDTO getCompanyResponseDTO() {
-        return companyResponseDTO;
+        return company;
     }
 
     public void setCompanyResponseDTO(CompanyResponseDTO companyResponseDTO) {
-        this.companyResponseDTO = companyResponseDTO;
+        this.company = companyResponseDTO;
     }
 }
