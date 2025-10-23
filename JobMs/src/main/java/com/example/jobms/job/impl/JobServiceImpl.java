@@ -7,6 +7,8 @@ import com.example.jobms.job.JobService;
 import com.example.jobms.job.response.CompanyResponseDTO;
 import com.example.jobms.job.response.ResponseDTO;
 import com.example.jobms.job.response.ReviewDTO;
+import com.example.jobms.openFeign.CompanyClient;
+import com.example.jobms.openFeign.ReviewClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +26,15 @@ public class JobServiceImpl implements JobService {
 
     //private List<Job> jobs = new ArrayList<Job>();
     JobRepository jobRepository;
-    private RestTemplate restTemplate;
+    //private RestTemplate restTemplate;
 
-    public JobServiceImpl(JobRepository jobRepository , RestTemplate restTemplate) {
+    private CompanyClient companyClient;
+    private ReviewClient reviewClient;
+
+    public JobServiceImpl(JobRepository jobRepository , CompanyClient companyClient ,ReviewClient reviewClient ) {
         this.jobRepository = jobRepository;
-        this.restTemplate = restTemplate;
+        this.companyClient = companyClient;
+        this.reviewClient = reviewClient;
     }
 
     @Override
@@ -47,17 +53,27 @@ public class JobServiceImpl implements JobService {
         responseDTO.setMaxSalary(job.getMaxSalary());
         responseDTO.setMinSalary(job.getMinSalary());
 
+        /*
+        Way to call service using RestTemplate
+
         String url = "http://COMPANYMS:8082/companies/" + job.getCompanyId();
         CompanyResponseDTO companyResponseDTO = restTemplate.getForObject(url , CompanyResponseDTO.class);
+*/
 
-        ResponseEntity<List<ReviewDTO>> reviewResponse = restTemplate.exchange(
+        /*ResponseEntity<List<ReviewDTO>> reviewResponse = restTemplate.exchange(
                 "http://REVIEWMS:8083/reviews?companyId=" + job.getCompanyId(),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<ReviewDTO>>() {
-                });
+                });*/
 
-        companyResponseDTO.setReviews(reviewResponse.getBody());
+        /*
+        * making calls to Service using OpenFeign
+        * */
+        CompanyResponseDTO companyResponseDTO = companyClient.getCompanies(job.getCompanyId());
+        List<ReviewDTO> reviewResponse = reviewClient.getReviews(job.getCompanyId());
+
+        companyResponseDTO.setReviews(reviewResponse);
 
         responseDTO.setCompanyResponseDTO(companyResponseDTO);
 

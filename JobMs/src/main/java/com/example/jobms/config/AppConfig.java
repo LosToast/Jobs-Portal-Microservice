@@ -30,4 +30,12 @@ public class AppConfig {
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
+
+    /*
+    *
+    * When we use Feign Client to make calls to services we do not require
+    * Bean with load balance just like rest template
+    * because feign client has built in load balance feature
+    *
+    * */
 }
