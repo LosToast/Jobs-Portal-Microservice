@@ -11,18 +11,16 @@
         <module name="configServer" />
         <module name="apiGateway" />
         <module name="companyMs" />
+        <module name="commonDtos" />
         <module name="service-registry" />
-        <module name="JobPortalMS" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="JobPortalMS" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="JobMs" options="-parameters" />
       <module name="apiGateway" options="-parameters" />
+      <module name="commonDtos" options="-parameters" />
       <module name="companyMs" options="-parameters" />
       <module name="configServer" options="-parameters" />
       <module name="reviewMs" options="-parameters" />

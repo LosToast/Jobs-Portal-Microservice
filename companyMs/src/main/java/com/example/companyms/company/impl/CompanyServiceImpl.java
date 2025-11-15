@@ -1,9 +1,12 @@
 package com.example.companyms.company.impl;
 
 
+import com.example.commondtos.sharedDtos.ReviewEvent;
 import com.example.companyms.company.Company;
 import com.example.companyms.company.CompanyRepository;
 import com.example.companyms.company.CompanyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,7 @@ import java.util.Optional;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
     private CompanyRepository companyRepository;
 
     public CompanyServiceImpl(CompanyRepository companyRepository) {
@@ -56,5 +60,10 @@ public class CompanyServiceImpl implements CompanyService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public void updateCompanyRating(ReviewEvent event) {
+        LOGGER.info(String.format("Consumed Review %s" ,event));
     }
 }

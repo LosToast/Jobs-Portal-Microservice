@@ -1,5 +1,7 @@
 package com.example.companyms.company;
 
+import com.example.commondtos.sharedDtos.ReviewEvent;
+
 import java.util.List;
 
 public interface CompanyService {
@@ -13,4 +15,6 @@ public interface CompanyService {
     boolean updateCompany(Long id, Company company);
 
     boolean deleteCompanyById(Long id);
+
+    public void updateCompanyRating(ReviewEvent event);
 }

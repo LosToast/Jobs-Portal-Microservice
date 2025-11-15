@@ -1,6 +1,7 @@
 package com.example.reviewms.review;
 
 
+import com.example.reviewms.review.kafkaConfig.ReviewsProducer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,12 @@ import java.util.List;
 public class ReviewController {
 
     private ReviewService reviewService;
+    private ReviewsProducer produce;
 
 
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService , ReviewsProducer reviewsProducer) {
         this.reviewService = reviewService;
+        this.produce = reviewsProducer;
     }
 
     @GetMapping
@@ -26,6 +29,7 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<String> createReview(@RequestParam Long companyId, @RequestBody Review review){
         if (reviewService.addReview(companyId, review)){
+            produce.sendMessage(review);
             return new ResponseEntity<>("Review added successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Review not added", HttpStatus.NOT_FOUND);

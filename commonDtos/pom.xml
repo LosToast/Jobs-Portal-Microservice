@@ -9,10 +9,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>configServer</artifactId>
+    <artifactId>commonDtos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>configServer</name>
-    <description>configServer</description>
+    <name>commonDtos</name>
+    <description>commonDtos</description>
+    <packaging>jar</packaging>
     <url/>
     <licenses>
         <license/>
@@ -28,35 +29,9 @@
     </scm>
     <properties>
         <java.version>21</java.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>

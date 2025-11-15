@@ -9,6 +9,8 @@ import com.example.jobms.job.response.ResponseDTO;
 import com.example.jobms.job.response.ReviewDTO;
 import com.example.jobms.openFeign.CompanyClient;
 import com.example.jobms.openFeign.ReviewClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,7 @@ public class JobServiceImpl implements JobService {
 
     private CompanyClient companyClient;
     private ReviewClient reviewClient;
+    private int attempt = 0;
 
     public JobServiceImpl(JobRepository jobRepository , CompanyClient companyClient ,ReviewClient reviewClient ) {
         this.jobRepository = jobRepository;
@@ -38,11 +41,18 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    //@CircuitBreaker(name = "companyBreaker" , fallbackMethod = "companyBreakerFallback")
+    @Retry(name = "companyBreaker" , fallbackMethod = "companyBreakerFallback")
     public List<ResponseDTO> findAll() {
+        System.out.println("attempt " + ++attempt);
         List<Job> jobs = jobRepository.findAll();
         return jobs.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+    public List<String> companyBreakerFallback(Exception e){
+        List<String> dummy = List.of("Dummy");
+        return dummy;
     }
 
     private ResponseDTO convertToDto(Job job){
